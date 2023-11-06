@@ -103,7 +103,7 @@ export class AppStack extends cdk.Stack {
       metric: transactionLambda.metricErrors(),
       threshold: 3,
       evaluationPeriods: 3,
-      alarmName: 'TransactionLambdaErrorAlarm',
+      alarmName: `${stageName}-TransactionLambdaErrorAlarm`,
       comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Alarm for Transaction Lambda errors',
     });
@@ -111,7 +111,7 @@ export class AppStack extends cdk.Stack {
       metric: transactionsLambda.metricErrors(),
       threshold: 3,
       evaluationPeriods: 3, // Evaluate the alarm once
-      alarmName: 'TransactionsLambdaErrorAlarm',
+      alarmName: `${stageName}-TransactionsLambdaErrorAlarm`,
       comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Alarm for Transactions Lambda errors',
     });
