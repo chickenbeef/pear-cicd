@@ -1,0 +1,217 @@
+import * as cdk from 'aws-cdk-lib';
+import { Construct } from 'constructs';
+import { Runtime } from 'aws-cdk-lib/aws-lambda';
+import { AttributeType, Table } from 'aws-cdk-lib/aws-dynamodb';
+import { Alarm, AlarmWidget, ComparisonOperator, Dashboard } from 'aws-cdk-lib/aws-cloudwatch';
+import { NodejsFunction } from 'aws-cdk-lib/aws-lambda-nodejs';
+import {
+  ApiKey,
+  ApiKeySourceType,
+  AuthorizationType,
+  CfnAuthorizer,
+  LambdaIntegration,
+  Model,
+  RequestValidator,
+  RestApi,
+  UsagePlan,
+} from 'aws-cdk-lib/aws-apigateway';
+import { REQUEST_JSON_SCHEMA } from './constants';
+import { CfnOutput } from 'aws-cdk-lib';
+import { AccountRecovery, CfnIdentityPool, UserPool, VerificationEmailStyle } from 'aws-cdk-lib/aws-cognito';
+
+export class AppStack extends cdk.Stack {
+  constructor(scope: Construct, id: string, stageName: string, props?: cdk.StackProps) {
+    super(scope, id, props);
+    const testPasswordPolicy = {
+      minLength: 6,
+      requireLowercase: false,
+      requireDigits: false,
+      requireUppercase: false,
+      requireSymbols: false,
+    };
+    const prodPasswordPolicy = {
+      minLength: 8,
+      requireLowercase: true,
+      requireDigits: true,
+      requireUppercase: true,
+      requireSymbols: true,
+    };
+    // Cognito setup
+    const userPool = new UserPool(this, 'UserPool', {
+      selfSignUpEnabled: true,
+      removalPolicy: cdk.RemovalPolicy.DESTROY,
+      signInAliases: { email: true },
+      userVerification: {
+        emailStyle: VerificationEmailStyle.CODE,
+      },
+      autoVerify: {
+        email: true,
+      },
+      passwordPolicy: stageName === 'prod' ? prodPasswordPolicy : testPasswordPolicy,
+      accountRecovery: AccountRecovery.EMAIL_ONLY,
+    });
+
+    userPool.addDomain(`pear-${stageName}`, {
+      cognitoDomain: {
+        domainPrefix: `pear-payments-${stageName}`,
+      },
+    });
+
+    const userPoolClient = userPool.addClient('AppClient', {
+      generateSecret: true,
+      oAuth: {
+        callbackUrls: ['https://oauth.pstmn.io/v1/callback'],
+      },
+    });
+
+    const identityPool = new CfnIdentityPool(this, 'IdentityPool', {
+      allowUnauthenticatedIdentities: false,
+      cognitoIdentityProviders: [
+        {
+          clientId: userPoolClient.userPoolClientId,
+          providerName: userPool.userPoolProviderName,
+        },
+      ],
+    });
+    // DDB for persistence
+    // Use separate DBs for each environment (test/prod)
+    const transactionsTable = new Table(this, 'TransactionsTable', {
+      partitionKey: {
+        name: 'transactionId',
+        type: AttributeType.STRING,
+      },
+    });
+    const transactionLambda = new NodejsFunction(this, 'TransactionLambda', {
+      entry: 'resources/endpoints/transaction.ts',
+      runtime: Runtime.NODEJS_18_X,
+      handler: 'handler',
+      environment: {
+        TABLE_NAME: transactionsTable.tableName,
+      },
+    });
+    const transactionsLambda = new NodejsFunction(this, 'TransactionsLambda', {
+      entry: 'resources/endpoints/transactions.ts',
+      runtime: Runtime.NODEJS_18_X,
+      handler: 'handler',
+      environment: {
+        TABLE_NAME: transactionsTable.tableName,
+      },
+    });
+
+    // Create CloudWatch Alarms for Lambda functions
+    const transactionLambdaAlarm = new Alarm(this, 'TransactionLambdaAlarm', {
+      metric: transactionLambda.metricErrors(),
+      threshold: 3,
+      evaluationPeriods: 3,
+      alarmName: 'TransactionLambdaErrorAlarm',
+      comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Alarm for Transaction Lambda errors',
+    });
+    const transactionsLambdaAlarm = new Alarm(this, 'TransactionsLambdaAlarm', {
+      metric: transactionsLambda.metricErrors(),
+      threshold: 3,
+      evaluationPeriods: 3, // Evaluate the alarm once
+      alarmName: 'TransactionsLambdaErrorAlarm',
+      comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Alarm for Transactions Lambda errors',
+    });
+
+    const dashboard = new Dashboard(this, `${stageName}-PearPaymentsDashboard`, {
+      dashboardName: `${stageName}-PearPaymentsDashboard`,
+    });
+
+    // Add widgets to the dashboard
+    dashboard.addWidgets(
+      new AlarmWidget({
+        alarm: transactionsLambdaAlarm,
+      }),
+      new AlarmWidget({
+        alarm: transactionLambdaAlarm,
+      }),
+    );
+
+    transactionsTable.grantReadData(transactionLambda);
+    transactionsTable.grantReadWriteData(transactionsLambda);
+
+    // Each environment would be a different account (test/prod)
+    // Use separate API GW instances for each environment
+    const api = new RestApi(this, 'PearPaymentsAPI', {
+      restApiName: `PearPaymentsAPI-${stageName}`,
+      apiKeySourceType: ApiKeySourceType.HEADER,
+    });
+
+    // Ideally this would be dynamically generated and each merchant would have their own API key with relevant limits
+    // Those keys can be generated by a separate API. For simplicity I'm generating it in the CDK.
+    const apiKey = new ApiKey(this, 'ApiKey');
+
+    const usagePlan = new UsagePlan(this, 'UsagePlan', {
+      name: 'Usage Plan',
+      apiStages: [
+        {
+          api,
+          stage: api.deploymentStage,
+        },
+      ],
+    });
+    usagePlan.addApiKey(apiKey);
+
+    const transactions = api.root.addResource('transactions');
+    const transaction = transactions.addResource('{id}');
+
+    // Connect Lambda functions to API GW endpoints
+    const transactionIntegration = new LambdaIntegration(transactionLambda);
+    const transactionsIntegration = new LambdaIntegration(transactionsLambda);
+
+    // Offload validation to API GW instead of handling it ourselves
+    const requestModel = new Model(this, 'TransactionRequestModel', {
+      restApi: api,
+      contentType: 'application/json',
+      modelName: 'TransactionRequestModel',
+      description: 'Validate the request body',
+      schema: REQUEST_JSON_SCHEMA,
+    });
+
+    const cognitoAuthorizer = new CfnAuthorizer(this, 'CognitoAuthorizer', {
+      restApiId: api.restApiId,
+      name: 'CognitoAuthorizer',
+      type: AuthorizationType.COGNITO,
+      identitySource: 'method.request.header.Authorization',
+      providerArns: [userPool.userPoolArn],
+    });
+
+    transaction.addMethod('GET', transactionIntegration, {
+      apiKeyRequired: true,
+      authorizer: {
+        authorizerId: cognitoAuthorizer.ref,
+        authorizationType: AuthorizationType.COGNITO,
+      },
+    });
+    transactions.addMethod('GET', transactionsIntegration, {
+      apiKeyRequired: true,
+      authorizer: {
+        authorizerId: cognitoAuthorizer.ref,
+        authorizationType: AuthorizationType.COGNITO,
+      },
+    });
+    transactions.addMethod('POST', transactionsIntegration, {
+      apiKeyRequired: true,
+      authorizer: {
+        authorizerId: cognitoAuthorizer.ref,
+        authorizationType: AuthorizationType.COGNITO,
+      },
+      requestValidator: new RequestValidator(this, 'body-validator', {
+        restApi: api,
+        requestValidatorName: 'body-validator',
+        validateRequestBody: true,
+      }),
+      requestModels: {
+        'application/json': requestModel,
+      },
+    });
+
+    // Output API Key
+    new CfnOutput(this, 'API Key ID', {
+      value: apiKey.keyId,
+    });
+  }
+}
