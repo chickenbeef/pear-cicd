@@ -1,0 +1,845 @@
+digraph "Diagram" {
+  splines = "ortho";
+  pad = "1.0";
+  nodesep = "0.60";
+  ranksep = "0.75";
+  fontname = "Sans-Serif";
+  fontsize = "15";
+  dpi = "200";
+  rankdir = "BT";
+  compound = "true";
+  fontcolor = "#222222";
+  edge [
+    color = "#D5871488",
+    penwidth = 2,
+    arrowhead = "dot",
+    arrowtail = "dot",
+  ];
+  node [
+    shape = "box",
+    style = "rounded",
+    fixedsize = true,
+    width = 1.7,
+    height = 1.7,
+    labelloc = "c",
+    imagescale = true,
+    fontname = "Sans-Serif",
+    fontsize = 8,
+    margin = 8,
+  ];
+  subgraph "PearCiCdStack" {
+    subgraph "cluster-SubGraph.PearCiCdStack" {
+      graph [
+        label = "PearCiCdStack",
+        labelloc = "b",
+        labeljust = "l",
+        margin = "10",
+        fontsize = "16",
+        penwidth = "2",
+        pencolor = "#888888",
+        style = "filled,rounded",
+        fillcolor = "#e4e4e4",
+      ];
+      subgraph "cluster-SubGraph.Pipeline" {
+        graph [
+          label = "Pipeline",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#d6d6d6",
+        ];
+        "PearCiCdStack/Pipeline/Pipeline" [
+          label = " Pipeline",
+          fontsize = 12,
+          image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_AWS-CodePipeline_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        "PearCiCdStack/Pipeline/CodeBuildActionRole" [
+          label = " CodeBuildActionRole",
+          fontsize = 12,
+          image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        "PearCiCdStack/Pipeline/UpdatePipeline/SelfMutation" [
+          label = " SelfMutation",
+          fontsize = 12,
+          image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+          imagescale = "true",
+          imagepos = "tc",
+          penwidth = "0",
+          shape = "node",
+          fixedsize = "true",
+          labelloc = "b",
+          width = 1.2,
+          height = 1.466,
+        ];
+        subgraph "cluster-SubGraph.Assets" {
+          graph [
+            label = "Assets",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#c7c7c7",
+          ];
+          "PearCiCdStack/Pipeline/Assets/FileRole" [
+            label = " FileRole",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_AWS-Identity-and-Access-Management_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/Pipeline/Assets/FileAsset1" [
+            label = " FileAsset1",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/Pipeline/Assets/FileAsset2" [
+            label = " FileAsset2",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/Pipeline/Assets/FileAsset3" [
+            label = " FileAsset3",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Developer- Tools/64/Arch_Amazon-CodeBuild_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+        }
+      }
+      subgraph "cluster-SubGraph.test" {
+        graph [
+          label = "test",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#d6d6d6",
+        ];
+        subgraph "cluster-SubGraph.LambdaStack" {
+          graph [
+            label = "LambdaStack",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#c7c7c7",
+          ];
+          "PearCiCdStack/test/LambdaStack/UserPool" [
+            label = " UserPool",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_Amazon-Cognito_64.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/IdentityPool" [
+            label = " Cognito IdentityPool\nIdentityPool",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_Amazon-Cognito_64.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionsTable" [
+            label = " TransactionsTable",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/AuditTable" [
+            label = " AuditTable",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionLambda" [
+            label = " TransactionLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionsLambda" [
+            label = " TransactionsLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/test/LambdaStack/AuditLambda" [
+            label = " AuditLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionLambdaAlarm" [
+            label = "\nTransactionLambdaAlar",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionsLambdaAlarm" [
+            label = "\nTransactionsLambdaAla",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/test/LambdaStack/AuditLambdaAlarm" [
+            label = " AuditLambdaAlarm",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/test-PearPaymentsDashboard" [
+            label = " test\nPearPaymentsDashboard",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" [
+            label = " PearPaymentsAPI",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/ApiKey" [
+            label = " ApiKey",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/UsagePlan" [
+            label = " UsagePlan",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/test/LambdaStack/TransactionRequestModel" [
+            label = "\nTransactionRequestMod",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/test/LambdaStack/CognitoAuthorizer" [
+            label = " ApiGateway\nAuthorizer\nCognitoAuthorizer",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.898,
+          ];
+          "PearCiCdStack/test/LambdaStack/body-validator" [
+            label = " body-validator",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+        }
+      }
+      subgraph "cluster-SubGraph.prod" {
+        graph [
+          label = "prod",
+          labelloc = "b",
+          labeljust = "l",
+          margin = "10",
+          fontsize = "16",
+          penwidth = "2",
+          pencolor = "#888888",
+          style = "filled,rounded",
+          fillcolor = "#d6d6d6",
+        ];
+        subgraph "cluster-SubGraph.LambdaStack" {
+          graph [
+            label = "LambdaStack",
+            labelloc = "b",
+            labeljust = "l",
+            margin = "10",
+            fontsize = "16",
+            penwidth = "2",
+            pencolor = "#888888",
+            style = "filled,rounded",
+            fillcolor = "#c7c7c7",
+          ];
+          "PearCiCdStack/prod/LambdaStack/UserPool" [
+            label = " UserPool",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_Amazon-Cognito_64.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/IdentityPool" [
+            label = " Cognito IdentityPool\nIdentityPool",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Security-Identity-Compliance/64/Arch_Amazon-Cognito_64.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionsTable" [
+            label = " TransactionsTable",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/AuditTable" [
+            label = " AuditTable",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Database/64/Arch_Amazon-DynamoDB_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionLambda" [
+            label = " TransactionLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionsLambda" [
+            label = " TransactionsLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/prod/LambdaStack/AuditLambda" [
+            label = " AuditLambda",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Compute/64/Arch_AWS-Lambda_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 2,
+            height = 2.266,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionLambdaAlarm" [
+            label = "\nTransactionLambdaAlar",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionsLambdaAlarm" [
+            label = "\nTransactionsLambdaAla",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/prod/LambdaStack/AuditLambdaAlarm" [
+            label = " AuditLambdaAlarm",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/prod-PearPaymentsDashboard" [
+            label = " prod\nPearPaymentsDashboard",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Management-Governance/64/Arch_Amazon-CloudWatch_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" [
+            label = " PearPaymentsAPI",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/ApiKey" [
+            label = " ApiKey",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/UsagePlan" [
+            label = " UsagePlan",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+          "PearCiCdStack/prod/LambdaStack/TransactionRequestModel" [
+            label = "\nTransactionRequestMod",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.682,
+          ];
+          "PearCiCdStack/prod/LambdaStack/CognitoAuthorizer" [
+            label = " ApiGateway\nAuthorizer\nCognitoAuthorizer",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.898,
+          ];
+          "PearCiCdStack/prod/LambdaStack/body-validator" [
+            label = " body-validator",
+            fontsize = 12,
+            image = "/Users/akooi/Documents/projects/peach/cdk/pear-cicd/node_modules/cdk-dia/icons/aws/Service/Arch_Networking-Content/64/Arch_Amazon-API-Gateway_64@5x.png",
+            imagescale = "true",
+            imagepos = "tc",
+            penwidth = "0",
+            shape = "node",
+            fixedsize = "true",
+            labelloc = "b",
+            width = 1.2,
+            height = 1.466,
+          ];
+        }
+      }
+    }
+  }
+  "PearCiCdStack/Pipeline/Pipeline" -> "PearCiCdStack/Pipeline/CodeBuildActionRole" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Pipeline" -> "PearCiCdStack/Pipeline/UpdatePipeline/SelfMutation" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Pipeline" -> "PearCiCdStack/Pipeline/Assets/FileAsset1" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Pipeline" -> "PearCiCdStack/Pipeline/Assets/FileAsset2" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Pipeline" -> "PearCiCdStack/Pipeline/Assets/FileAsset3" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/CodeBuildActionRole" -> "PearCiCdStack/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/CodeBuildActionRole" -> "PearCiCdStack/Pipeline/UpdatePipeline/SelfMutation" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/CodeBuildActionRole" -> "PearCiCdStack/Pipeline/Assets/FileAsset1" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/CodeBuildActionRole" -> "PearCiCdStack/Pipeline/Assets/FileAsset2" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/CodeBuildActionRole" -> "PearCiCdStack/Pipeline/Assets/FileAsset3" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Assets/FileRole" -> "PearCiCdStack/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Assets/FileAsset1" -> "PearCiCdStack/Pipeline/Assets/FileRole" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Assets/FileAsset2" -> "PearCiCdStack/Pipeline/Assets/FileRole" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/Assets/FileAsset3" -> "PearCiCdStack/Pipeline/Assets/FileRole" [
+    dir = "both",
+  ];
+  "PearCiCdStack/Pipeline/UpdatePipeline/SelfMutation" -> "PearCiCdStack/Pipeline/Pipeline" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/IdentityPool" -> "PearCiCdStack/test/LambdaStack/UserPool" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionLambda" -> "PearCiCdStack/test/LambdaStack/TransactionsTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionLambda" -> "PearCiCdStack/test/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionsLambda" -> "PearCiCdStack/test/LambdaStack/TransactionsTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionsLambda" -> "PearCiCdStack/test/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/AuditLambda" -> "PearCiCdStack/test/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionLambdaAlarm" -> "PearCiCdStack/test/LambdaStack/TransactionLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionsLambdaAlarm" -> "PearCiCdStack/test/LambdaStack/TransactionsLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/AuditLambdaAlarm" -> "PearCiCdStack/test/LambdaStack/AuditLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/test-PearPaymentsDashboard" -> "PearCiCdStack/test/LambdaStack/TransactionLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/test-PearPaymentsDashboard" -> "PearCiCdStack/test/LambdaStack/TransactionsLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/test-PearPaymentsDashboard" -> "PearCiCdStack/test/LambdaStack/AuditLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/TransactionLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/CognitoAuthorizer" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/TransactionsLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/AuditLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/TransactionRequestModel" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/test/LambdaStack/body-validator" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/UsagePlan" -> "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/UsagePlan" -> "PearCiCdStack/test/LambdaStack/ApiKey" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/TransactionRequestModel" -> "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/CognitoAuthorizer" -> "PearCiCdStack/test/LambdaStack/UserPool" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/CognitoAuthorizer" -> "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/test/LambdaStack/body-validator" -> "PearCiCdStack/test/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/IdentityPool" -> "PearCiCdStack/prod/LambdaStack/UserPool" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionLambda" -> "PearCiCdStack/prod/LambdaStack/TransactionsTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionLambda" -> "PearCiCdStack/prod/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionsLambda" -> "PearCiCdStack/prod/LambdaStack/TransactionsTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionsLambda" -> "PearCiCdStack/prod/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/AuditLambda" -> "PearCiCdStack/prod/LambdaStack/AuditTable" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionLambdaAlarm" -> "PearCiCdStack/prod/LambdaStack/TransactionLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionsLambdaAlarm" -> "PearCiCdStack/prod/LambdaStack/TransactionsLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/AuditLambdaAlarm" -> "PearCiCdStack/prod/LambdaStack/AuditLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/prod-PearPaymentsDashboard" -> "PearCiCdStack/prod/LambdaStack/TransactionLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/prod-PearPaymentsDashboard" -> "PearCiCdStack/prod/LambdaStack/TransactionsLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/prod-PearPaymentsDashboard" -> "PearCiCdStack/prod/LambdaStack/AuditLambdaAlarm" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/TransactionLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/CognitoAuthorizer" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/TransactionsLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/AuditLambda" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/TransactionRequestModel" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" -> "PearCiCdStack/prod/LambdaStack/body-validator" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/UsagePlan" -> "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/UsagePlan" -> "PearCiCdStack/prod/LambdaStack/ApiKey" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/TransactionRequestModel" -> "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/CognitoAuthorizer" -> "PearCiCdStack/prod/LambdaStack/UserPool" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/CognitoAuthorizer" -> "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+  "PearCiCdStack/prod/LambdaStack/body-validator" -> "PearCiCdStack/prod/LambdaStack/PearPaymentsAPI" [
+    dir = "both",
+  ];
+}

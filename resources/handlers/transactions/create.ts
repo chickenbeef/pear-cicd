@@ -20,7 +20,7 @@ export async function create(body: string | null) {
 
   await dynamodb.send(
     new PutCommand({
-      TableName: process.env.TABLE_NAME,
+      TableName: process.env.TRANSACTIONS_TABLE_NAME,
       Item: {
         transactionId: `${uuid}`,
         ...bodyParsed,

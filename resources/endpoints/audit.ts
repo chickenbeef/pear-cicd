@@ -1,22 +1,13 @@
 import { APIGatewayProxyEvent } from 'aws-lambda';
-import { getOne } from '../handlers/transactions/get-one';
+import { getAll } from '../handlers/audit/get-all';
 
 export const handler = async (event: APIGatewayProxyEvent) => {
   console.log(`Caller: ${JSON.stringify(event.requestContext.authorizer)}`);
-  const id = event.pathParameters?.id;
-
-  if (!id) {
-    return {
-      statusCode: 400,
-      body: JSON.stringify({ message: 'Missing path parameter: id' }),
-    };
-  }
-
   try {
     // Handle different HTTP methods
     switch (event.httpMethod) {
       case 'GET':
-        return await getOne({ id }, event.requestContext.authorizer);
+        return await getAll();
       default:
         return {
           statusCode: 400,

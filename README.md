@@ -3,13 +3,17 @@
 - [🍐 Pear Payments AWS CDK Stack](#-pear-payments-aws-cdk-stack)
   - [Introduction](#introduction)
   - [Basic Pipeline Flow](#basic-pipeline-flow)
-  - [Application Flow](#application-flow)
+  - [Resource Diagram](#resource-diagram)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
   - [Deployment](#deployment)
   - [Testing](#testing)
   - [Usage](#usage)
+  - [Lambda Endpoints](#lambda-endpoints)
+    - [Transactions](#transactions)
+    - [Audit](#audit)
   - [Design Decisions](#design-decisions)
+  - [Out of Scope](#out-of-scope)
   - [Useful commands](#useful-commands)
   - [Cleanup](#cleanup)
 
@@ -21,9 +25,9 @@ This repository contains an AWS CDK (Cloud Development Kit) stack that deploys a
 
 GitHub -> trigger CodePipeline -> Test -> Deploy to `test` environment -> Manual Approval -> Deploy to Prod
 
-## Application Flow
+## Resource Diagram
 
-API Gateway -> Cognito -> Lambda -> DynamoDB
+![Diagram](./diagram.png)
 
 ## Prerequisites
 
@@ -52,7 +56,7 @@ Before you can deploy this CDK stack, you need to have the following prerequisit
 2. Change to the project directory:
 
     ```bash
-    cd pear-payments-cdk
+    cd pear-cicd
     ```
 
 3. Install dependencies:
@@ -89,6 +93,24 @@ A sample test is included. Run `npm run test` to run your tests. 🧪
 
 Once the CDK stack is deployed, you will need to create a user and confirm them in Cognito. Once the user is authorized via Cognito, the token can be sent to API Gateway to interact with the Pear Payments Lambda. You will also receive an API Key to authenticate your requests. The key ID can be found in the stack outputs or in the terminal after deploying the stack. 🚀
 
+## Lambda Endpoints
+
+### Transactions
+
+- Create Transaction  
+    POST
+    `/transactions`
+
+- Get All Transactions  
+    GET
+    `/transactions`
+
+### Audit
+
+- Get All Audit entries  
+    GET
+    `/audit`
+
 ## Design Decisions
 
 There are no dependent resources in the custom VPC, therefore, the VPC was not used and a bastion is not required. Lambda and DynamoDB run in the AWS network and authentication is with IAM.
@@ -96,6 +118,23 @@ There are no dependent resources in the custom VPC, therefore, the VPC was not u
 DynamoDB was chosen for its scalibility, high availability and low latency required for payment transactions.
 
 Cognito is used for OAuth 2.0 authorisation and since this exercise is for an API only, Cognito was configured with a Hosted UI.
+
+## Out of Scope
+
+The following was left out due to time constraints:
+
+- Fine grained access control with Cognito groups
+- WAF to mitigate attacks
+- DDB backups, replication, encryption
+- Field validation in Lambda functions
+- Custom domain
+- Caching
+- +every other feature of the services used :)
+
+The following was left out due to being not needed:
+
+- EC2 bastion
+- Lambda in a VPC
 
 ## Useful commands
 

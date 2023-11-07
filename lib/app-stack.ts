@@ -81,12 +81,19 @@ export class AppStack extends cdk.Stack {
         type: AttributeType.STRING,
       },
     });
+    const auditTable = new Table(this, 'AuditTable', {
+      partitionKey: {
+        name: 'auditId',
+        type: AttributeType.STRING,
+      },
+    });
     const transactionLambda = new NodejsFunction(this, 'TransactionLambda', {
       entry: 'resources/endpoints/transaction.ts',
       runtime: Runtime.NODEJS_18_X,
       handler: 'handler',
       environment: {
-        TABLE_NAME: transactionsTable.tableName,
+        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
+        AUDIT_TABLE_NAME: auditTable.tableName,
       },
     });
     const transactionsLambda = new NodejsFunction(this, 'TransactionsLambda', {
@@ -94,7 +101,16 @@ export class AppStack extends cdk.Stack {
       runtime: Runtime.NODEJS_18_X,
       handler: 'handler',
       environment: {
-        TABLE_NAME: transactionsTable.tableName,
+        TRANSACTIONS_TABLE_NAME: transactionsTable.tableName,
+        AUDIT_TABLE_NAME: auditTable.tableName,
+      },
+    });
+    const auditLambda = new NodejsFunction(this, 'AuditLambda', {
+      entry: 'resources/endpoints/audit.ts',
+      runtime: Runtime.NODEJS_18_X,
+      handler: 'handler',
+      environment: {
+        AUDIT_TABLE_NAME: auditTable.tableName,
       },
     });
 
@@ -115,6 +131,14 @@ export class AppStack extends cdk.Stack {
       comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
       alarmDescription: 'Alarm for Transactions Lambda errors',
     });
+    const auditLambdaAlarm = new Alarm(this, 'AuditLambdaAlarm', {
+      metric: auditLambda.metricErrors(),
+      threshold: 3,
+      evaluationPeriods: 3, // Evaluate the alarm once
+      alarmName: `${stageName}-AuditLambdaErrorAlarm`,
+      comparisonOperator: ComparisonOperator.GREATER_THAN_OR_EQUAL_TO_THRESHOLD,
+      alarmDescription: 'Alarm for Audit Lambda errors',
+    });
 
     const dashboard = new Dashboard(this, `${stageName}-PearPaymentsDashboard`, {
       dashboardName: `${stageName}-PearPaymentsDashboard`,
@@ -128,10 +152,16 @@ export class AppStack extends cdk.Stack {
       new AlarmWidget({
         alarm: transactionLambdaAlarm,
       }),
+      new AlarmWidget({
+        alarm: auditLambdaAlarm,
+      }),
     );
 
     transactionsTable.grantReadData(transactionLambda);
     transactionsTable.grantReadWriteData(transactionsLambda);
+    auditTable.grantReadWriteData(transactionLambda);
+    auditTable.grantReadWriteData(transactionsLambda);
+    auditTable.grantReadData(auditLambda);
 
     // Each environment would be a different account (test/prod)
     // Use separate API GW instances for each environment
@@ -157,10 +187,12 @@ export class AppStack extends cdk.Stack {
 
     const transactions = api.root.addResource('transactions');
     const transaction = transactions.addResource('{id}');
+    const audits = api.root.addResource('audit');
 
     // Connect Lambda functions to API GW endpoints
     const transactionIntegration = new LambdaIntegration(transactionLambda);
     const transactionsIntegration = new LambdaIntegration(transactionsLambda);
+    const auditIntegration = new LambdaIntegration(auditLambda);
 
     // Offload validation to API GW instead of handling it ourselves
     const requestModel = new Model(this, 'TransactionRequestModel', {
@@ -178,7 +210,8 @@ export class AppStack extends cdk.Stack {
       identitySource: 'method.request.header.Authorization',
       providerArns: [userPool.userPoolArn],
     });
-
+    
+    // Should ideally be scoped to allow specific Cognito groups access
     transaction.addMethod('GET', transactionIntegration, {
       apiKeyRequired: true,
       authorizer: {
@@ -186,6 +219,7 @@ export class AppStack extends cdk.Stack {
         authorizationType: AuthorizationType.COGNITO,
       },
     });
+    // Should ideally be scoped to allow specific Cognito groups access
     transactions.addMethod('GET', transactionsIntegration, {
       apiKeyRequired: true,
       authorizer: {
@@ -206,6 +240,14 @@ export class AppStack extends cdk.Stack {
       }),
       requestModels: {
         'application/json': requestModel,
+      },
+    });
+    // Should ideally be scoped to allow specific Cognito groups access
+    audits.addMethod('GET', auditIntegration, {
+      apiKeyRequired: true,
+      authorizer: {
+        authorizerId: cognitoAuthorizer.ref,
+        authorizationType: AuthorizationType.COGNITO,
       },
     });
 
