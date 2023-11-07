@@ -1,7 +1,7 @@
 import { JsonSchemaType } from 'aws-cdk-lib/aws-apigateway';
 
-export const ACCOUNT = '269051030962';
-// export const ACCOUNT = '709608147459'
+// Peach account
+export const ACCOUNT = '709608147459'
 
 export const REGION = 'eu-west-1';
 
