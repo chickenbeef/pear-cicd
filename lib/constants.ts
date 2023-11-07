@@ -1,9 +1,9 @@
 import { JsonSchemaType } from 'aws-cdk-lib/aws-apigateway';
 
-export const ACCOUNT = '269051030962'
+export const ACCOUNT = '269051030962';
 // export const ACCOUNT = '709608147459'
 
-export const REGION = 'eu-west-1'
+export const REGION = 'eu-west-1';
 
 export const REQUEST_JSON_SCHEMA = {
   type: JsonSchemaType.OBJECT,
@@ -15,6 +15,7 @@ export const REQUEST_JSON_SCHEMA = {
     datetime: { type: JsonSchemaType.STRING },
     user: {
       type: JsonSchemaType.OBJECT,
+      required: ['id', 'name', 'surname'],
       properties: {
         id: { type: JsonSchemaType.STRING },
         name: { type: JsonSchemaType.STRING },
@@ -23,6 +24,7 @@ export const REQUEST_JSON_SCHEMA = {
     },
     card: {
       type: JsonSchemaType.OBJECT,
+      required: ['number', 'expiry-date'],
       properties: {
         number: { type: JsonSchemaType.INTEGER },
         'expiry-date': { type: JsonSchemaType.STRING },
